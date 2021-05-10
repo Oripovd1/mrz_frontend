@@ -32,15 +32,6 @@ function App() {
       setLoading(true)
       return
     }
-    console.log('info => ', info)
-
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, (imageUrl) => {
-        setImageUrl(imageUrl)
-        setLoading(false)
-      })
-    }
 
     let formdata = new FormData()
     formdata.append('image', info.file.originFileObj, '2021-05-07 14.36.46.jpg')
@@ -54,6 +45,10 @@ function App() {
     fetch('https://mrz-service.herokuapp.com/upload', requestOptions)
       .then((response) => response.json())
       .then((result) => {
+        getBase64(info.file.originFileObj, (imageUrl) => {
+          setImageUrl(imageUrl)
+          setLoading(false)
+        })
         setData(result.fields)
         console.log(result)
       })
@@ -65,7 +60,6 @@ function App() {
       <div style={{ marginTop: 8 }}>Загрузить паспорт</div>
     </div>
   )
-  console.log('data => ', data)
 
   return (
     <div className='App'>
@@ -76,9 +70,8 @@ function App() {
           listType='picture-card'
           className='avatar-uploader'
           showUploadList={false}
-          // beforeUpload={beforeUpload}
+          beforeUpload={beforeUpload}
           onChange={handleChange}
-          action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
         >
           {imageUrl ? (
             <img src={imageUrl} alt='avatar' style={{ width: '100%' }} />
@@ -108,7 +101,7 @@ function App() {
           </li>
           <li>
             <b>Дата рождения</b>
-            <span>{data?.birthDate}</span>
+            <span>{data?.birthDate.split('')}</span>
           </li>
           <li>
             <b>Пол</b>

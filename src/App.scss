@@ -15,6 +15,11 @@
         width: 100%;
         background-color: #fff;
         border-radius: 8px;
+        img {
+          width: 100%;
+          max-height: 100%;
+          object-fit: contain;
+        }
       }
     }
   }
@@ -41,6 +46,9 @@
         border-bottom: 1px solid #e3e3e3;
         &:last-child {
           border-bottom: none;
+        }
+        span {
+          text-transform: capitalize;
         }
       }
     }
